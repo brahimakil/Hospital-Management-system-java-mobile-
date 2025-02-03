@@ -62,24 +62,42 @@ public class ManageDoctorsActivity extends BaseManagementActivity {
                 String password = etPassword.getText().toString();
                 String specialty = etSpecialty.getText().toString();
                 
-                // Generate a unique ID for the doctor
-                String uid = FirebaseUtils.db.collection(Constants.COLLECTION_DOCTORS).document().getId();
+                handleAddDoctor(name, email, password, specialty);
+            })
+            .setNegativeButton("Cancel", null)
+            .show();
+    }
+
+    private void handleAddDoctor(String name, String email, String password, String specialty) {
+        // First create Firebase Auth account
+        FirebaseUtils.signUp(email, password, task -> {
+            if (task.isSuccessful()) {
+                String uid = task.getResult().getUser().getUid();
+                
                 Map<String, Object> doctorData = new HashMap<>();
                 doctorData.put(Constants.FIELD_NAME, name);
                 doctorData.put(Constants.FIELD_EMAIL, email);
-                doctorData.put(Constants.FIELD_PASSWORD, password); // Store encrypted or hashed password
                 doctorData.put(Constants.FIELD_SPECIALTY, specialty);
                 doctorData.put(Constants.FIELD_CREATED_AT, new Date());
                 doctorData.put(Constants.FIELD_UPDATED_AT, new Date());
 
                 FirebaseUtils.addUserToCollection(Constants.COLLECTION_DOCTORS, uid, doctorData,
-                    aVoid -> Toast.makeText(this, "Doctor added successfully", Toast.LENGTH_SHORT).show(),
-                    e -> Toast.makeText(this, "Failed to create doctor: " + e.getMessage(), 
-                        Toast.LENGTH_SHORT).show()
+                    aVoid -> {
+                        Toast.makeText(this, "Doctor added successfully", Toast.LENGTH_SHORT).show();
+                        FirebaseUtils.signOut(); // Sign out after creating the account
+                    },
+                    e -> {
+                        Toast.makeText(this, "Failed to create doctor: " + e.getMessage(), 
+                            Toast.LENGTH_SHORT).show();
+                        // Delete the auth user if profile creation fails
+                        task.getResult().getUser().delete();
+                    }
                 );
-            })
-            .setNegativeButton("Cancel", null)
-            .show();
+            } else {
+                Toast.makeText(this, "Failed to create account: " + task.getException().getMessage(), 
+                    Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadDoctors() {

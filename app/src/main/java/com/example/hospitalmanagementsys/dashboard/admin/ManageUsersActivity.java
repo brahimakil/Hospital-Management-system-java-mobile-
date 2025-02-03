@@ -57,23 +57,41 @@ public class ManageUsersActivity extends BaseManagementActivity {
                 String email = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
                 
-                // Generate a unique ID for the user
-                String uid = FirebaseUtils.db.collection(Constants.COLLECTION_USERS).document().getId();
+                handleAddUser(name, email, password);
+            })
+            .setNegativeButton("Cancel", null)
+            .show();
+    }
+
+    private void handleAddUser(String name, String email, String password) {
+        // First create Firebase Auth account
+        FirebaseUtils.signUp(email, password, task -> {
+            if (task.isSuccessful()) {
+                String uid = task.getResult().getUser().getUid();
+                
                 Map<String, Object> userData = new HashMap<>();
                 userData.put(Constants.FIELD_NAME, name);
                 userData.put(Constants.FIELD_EMAIL, email);
-                userData.put(Constants.FIELD_PASSWORD, password); // Store encrypted or hashed password
                 userData.put(Constants.FIELD_CREATED_AT, new Date());
                 userData.put(Constants.FIELD_UPDATED_AT, new Date());
 
                 FirebaseUtils.addUserToCollection(Constants.COLLECTION_USERS, uid, userData,
-                    aVoid -> Toast.makeText(this, "User added successfully", Toast.LENGTH_SHORT).show(),
-                    e -> Toast.makeText(this, "Failed to create user: " + e.getMessage(), 
-                        Toast.LENGTH_SHORT).show()
+                    aVoid -> {
+                        Toast.makeText(this, "User added successfully", Toast.LENGTH_SHORT).show();
+                        FirebaseUtils.signOut(); // Sign out after creating the account
+                    },
+                    e -> {
+                        Toast.makeText(this, "Failed to create user: " + e.getMessage(), 
+                            Toast.LENGTH_SHORT).show();
+                        // Delete the auth user if profile creation fails
+                        task.getResult().getUser().delete();
+                    }
                 );
-            })
-            .setNegativeButton("Cancel", null)
-            .show();
+            } else {
+                Toast.makeText(this, "Failed to create account: " + task.getException().getMessage(), 
+                    Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadUsers() {
