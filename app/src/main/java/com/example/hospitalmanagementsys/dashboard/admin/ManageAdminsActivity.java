@@ -124,15 +124,14 @@ public class ManageAdminsActivity extends BaseManagementActivity {
 
     private void confirmDelete(Admin admin) {
         new MaterialAlertDialogBuilder(this)
-            .setTitle("Delete Admin")
+            .setTitle("Confirm Delete")
             .setMessage("Are you sure you want to delete this admin?")
             .setPositiveButton("Delete", (dialog, which) -> {
-                FirebaseUtils.deleteDocument(
-                    Constants.COLLECTION_ADMINS, 
-                    admin.getUid(),
-                    aVoid -> Toast.makeText(this, "Admin deleted successfully", Toast.LENGTH_SHORT).show(),
-                    e -> Toast.makeText(this, "Failed to delete admin: " + e.getMessage(), 
-                        Toast.LENGTH_SHORT).show()
+                FirebaseUtils.deleteDocument(Constants.COLLECTION_ADMINS, admin.getUid(),
+                    aVoid -> Toast.makeText(this, "Admin deleted successfully", 
+                        Toast.LENGTH_SHORT).show(),
+                    e -> Toast.makeText(this, "Failed to delete admin: " + 
+                        e.getMessage(), Toast.LENGTH_SHORT).show()
                 );
             })
             .setNegativeButton("Cancel", null)

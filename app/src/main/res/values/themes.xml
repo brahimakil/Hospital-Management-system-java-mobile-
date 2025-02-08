@@ -6,4 +6,27 @@
     </style>
 
     <style name="Theme.HospitalManagementSys" parent="Base.Theme.HospitalManagementSys" />
+
+    <style name="Theme.HospitalManagement" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorPrimaryVariant">@color/primary_variant</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryVariant">@color/secondary_variant</item>
+        <item name="android:windowBackground">@color/background_light</item>
+        <item name="colorSurface">@color/surface_light</item>
+        <item name="colorError">@color/error_light</item>
+        <item name="colorOnPrimary">@color/on_primary_light</item>
+        <item name="colorOnSecondary">@color/on_secondary_light</item>
+        <item name="colorOnBackground">@color/on_background_light</item>
+        <item name="colorOnSurface">@color/on_surface_light</item>
+        <item name="colorOnError">@color/on_error_light</item>
+        
+        <!-- Card styles -->
+        <item name="materialCardViewStyle">@style/Widget.MaterialComponents.CardView</item>
+        
+        <!-- System UI appearance -->
+        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="android:navigationBarColor">@color/background_light</item>
+    </style>
 </resources>

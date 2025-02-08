@@ -3,11 +3,12 @@ package com.example.hospitalmanagementsys.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.hospitalmanagementsys.R;
 import com.example.hospitalmanagementsys.models.Doctor;
+import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 
 public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder> {
@@ -15,22 +16,28 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
     private OnDoctorClickListener editListener;
     private OnDoctorClickListener deleteListener;
 
-    public DoctorAdapter(ArrayList<Doctor> doctors, OnDoctorClickListener editListener, 
+    public interface OnDoctorClickListener {
+        void onDoctorClick(Doctor doctor);
+    }
+
+    public DoctorAdapter(ArrayList<Doctor> doctors, 
+                        OnDoctorClickListener editListener,
                         OnDoctorClickListener deleteListener) {
         this.doctors = doctors;
         this.editListener = editListener;
         this.deleteListener = deleteListener;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.item_management, parent, false);
+                .inflate(R.layout.item_management, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Doctor doctor = doctors.get(position);
         holder.tvName.setText(doctor.getName());
         holder.tvEmail.setText(doctor.getEmail());
@@ -44,15 +51,11 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
         return doctors.size();
     }
 
-    public interface OnDoctorClickListener {
-        void onDoctorClick(Doctor doctor);
-    }
-
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvEmail;
-        ImageButton btnEdit, btnDelete;
+        MaterialButton btnEdit, btnDelete;
 
-        ViewHolder(View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
             tvEmail = itemView.findViewById(R.id.tvEmail);
@@ -60,4 +63,4 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
             btnDelete = itemView.findViewById(R.id.btnDelete);
         }
     }
-} 
+}

@@ -47,7 +47,12 @@ public class ManageAppointmentsActivity extends BaseManagementActivity {
     @Override
     protected void setupRecyclerView() {
         appointments = new ArrayList<>();
-        adapter = new AppointmentAdapter(appointments, this::showEditDialog, this::confirmDelete, true);
+        adapter = new AppointmentAdapter(
+            appointments,
+            this::showEditDialog,  // Method reference that takes Appointment parameter
+            this::confirmDelete,   // Method reference that takes Appointment parameter
+            true
+        );
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         loadAppointments();

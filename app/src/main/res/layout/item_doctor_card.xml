@@ -17,20 +17,22 @@
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textAppearance="@style/TextAppearance.App.Headline2"/>
 
         <TextView
             android:id="@+id/tvSpecialty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.App.Body1"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBookAppointment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Book Appointment"/>
+            android:layout_marginTop="16dp"
+            android:text="Book Appointment"
+            app:icon="@drawable/ic_calendar"
+            style="@style/Widget.MaterialComponents.Button"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView> 

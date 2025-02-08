@@ -69,7 +69,6 @@ public class ManageDoctorsActivity extends BaseManagementActivity {
     }
 
     private void handleAddDoctor(String name, String email, String password, String specialty) {
-        // First create Firebase Auth account
         FirebaseUtils.signUp(email, password, task -> {
             if (task.isSuccessful()) {
                 String uid = task.getResult().getUser().getUid();
@@ -143,15 +142,14 @@ public class ManageDoctorsActivity extends BaseManagementActivity {
 
     private void confirmDelete(Doctor doctor) {
         new MaterialAlertDialogBuilder(this)
-            .setTitle("Delete Doctor")
+            .setTitle("Confirm Delete")
             .setMessage("Are you sure you want to delete this doctor?")
             .setPositiveButton("Delete", (dialog, which) -> {
-                FirebaseUtils.deleteDocument(
-                    Constants.COLLECTION_DOCTORS, 
-                    doctor.getUid(),
-                    aVoid -> Toast.makeText(this, "Doctor deleted successfully", Toast.LENGTH_SHORT).show(),
-                    e -> Toast.makeText(this, "Failed to delete doctor: " + e.getMessage(), 
-                        Toast.LENGTH_SHORT).show()
+                FirebaseUtils.deleteDocument(Constants.COLLECTION_DOCTORS, doctor.getUid(),
+                    aVoid -> Toast.makeText(this, "Doctor deleted successfully", 
+                        Toast.LENGTH_SHORT).show(),
+                    e -> Toast.makeText(this, "Failed to delete doctor: " + 
+                        e.getMessage(), Toast.LENGTH_SHORT).show()
                 );
             })
             .setNegativeButton("Cancel", null)

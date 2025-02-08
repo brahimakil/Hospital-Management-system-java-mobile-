@@ -1,20 +1,26 @@
 package com.example.hospitalmanagementsys.models;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Appointment {
     private String uid;
     private String doctorId;
-    private String userId;
     private String doctorName;
+    private String userId;
     private String userName;
     private Date appointmentDate;
-    private Date createdAt;
-    private Date updatedAt;
     private String status; // "scheduled", "completed", "cancelled"
 
     public Appointment() {
-        // Required empty constructor for Firebase
+        // Required empty constructor for Firestore
+    }
+
+    public String getFormattedDateTime() {
+        if (appointmentDate == null) return "";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
+        return dateFormat.format(appointmentDate);
     }
 
     // Getters
@@ -24,8 +30,6 @@ public class Appointment {
     public String getDoctorName() { return doctorName; }
     public String getUserName() { return userName; }
     public Date getAppointmentDate() { return appointmentDate; }
-    public Date getCreatedAt() { return createdAt; }
-    public Date getUpdatedAt() { return updatedAt; }
     public String getStatus() { return status; }
 
     // Setters
@@ -35,7 +39,5 @@ public class Appointment {
     public void setDoctorName(String doctorName) { this.doctorName = doctorName; }
     public void setUserName(String userName) { this.userName = userName; }
     public void setAppointmentDate(Date appointmentDate) { this.appointmentDate = appointmentDate; }
-    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
-    public void setUpdatedAt(Date updatedAt) { this.updatedAt = updatedAt; }
     public void setStatus(String status) { this.status = status; }
 } 

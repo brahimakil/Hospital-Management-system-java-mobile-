@@ -15,6 +15,7 @@ import com.example.hospitalmanagementsys.utils.FirebaseUtils;
 
 public class AdminDashboardActivity extends AppCompatActivity {
     private Button btnManageUsers, btnManageDoctors, btnManageAdmins, btnManageAppointments;
+    private TextView tvWelcome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +24,16 @@ public class AdminDashboardActivity extends AppCompatActivity {
         
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Admin Dashboard");
 
         initViews();
         setupClickListeners();
-
-        TextView tvWelcome = findViewById(R.id.tvWelcome);
+        
         tvWelcome.setText("Welcome Admin: " + FirebaseUtils.getCurrentUser().getEmail());
     }
 
     private void initViews() {
+        tvWelcome = findViewById(R.id.tvWelcome);
         btnManageUsers = findViewById(R.id.btnManageUsers);
         btnManageDoctors = findViewById(R.id.btnManageDoctors);
         btnManageAdmins = findViewById(R.id.btnManageAdmins);

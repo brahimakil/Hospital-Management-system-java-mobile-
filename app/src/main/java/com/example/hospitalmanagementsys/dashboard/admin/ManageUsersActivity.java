@@ -142,15 +142,14 @@ public class ManageUsersActivity extends BaseManagementActivity {
 
     private void confirmDelete(User user) {
         new MaterialAlertDialogBuilder(this)
-            .setTitle("Delete User")
+            .setTitle("Confirm Delete")
             .setMessage("Are you sure you want to delete this user?")
             .setPositiveButton("Delete", (dialog, which) -> {
-                FirebaseUtils.deleteDocument(
-                    Constants.COLLECTION_USERS, 
-                    user.getUid(),
-                    aVoid -> Toast.makeText(this, "User deleted successfully", Toast.LENGTH_SHORT).show(),
-                    e -> Toast.makeText(this, "Failed to delete user: " + e.getMessage(), 
-                        Toast.LENGTH_SHORT).show()
+                FirebaseUtils.deleteDocument(Constants.COLLECTION_USERS, user.getUid(),
+                    aVoid -> Toast.makeText(this, "User deleted successfully", 
+                        Toast.LENGTH_SHORT).show(),
+                    e -> Toast.makeText(this, "Failed to delete user: " + 
+                        e.getMessage(), Toast.LENGTH_SHORT).show()
                 );
             })
             .setNegativeButton("Cancel", null)
